@@ -1,0 +1,419 @@
+/* timeline.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #fef7f7, #f8f6f4);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+.timeline {
+  position: relative;
+  margin: 2rem auto;
+  padding: 1rem 0;
+  width: 100%;
+  max-width: 1100px;
+  background: transparent;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: linear-gradient(180deg, #b0b0b0 0%, #e0e0e0 100%);
+  box-shadow: 0 0 12px 2px #b0b0b044;
+  transform: translateX(-50%);
+  border-radius: 3px;
+  z-index: 0;
+}
+
+/* NEW: The glowing line overlay */
+/* In timeline.css */
+.timeline::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 6px; /* Same width as the main line */
+  height: var(--glow-line-height, 0); /* NEW LINE: This uses the JS-controlled variable */
+  background: linear-gradient(180deg, rgba(225, 82, 82, 0.2) 0%, rgba(225, 82, 82, 0.8) 50%, rgba(225, 82, 82, 0.2) 100%);
+  box-shadow: 0 0 15px 5px rgba(225, 82, 82, 0.6);
+  transform: translateX(-50%);
+  border-radius: 3px;
+  z-index: 1;
+  transition: height 0.9s ease-out;
+}
+
+
+.timeline-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin: 75px 0;
+  min-height: 160px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease-out;
+  z-index: 3;
+}
+
+.timeline-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  background: #b0b0b0; /* Default dot color */
+  border: 5px solid white;
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 0 8px 2px #b0b0b044; /* Initial subtle glow */
+  transition: all 0.5s ease; /* Smooth transition for glow */
+}
+
+/* Updated: glowing pulse animation for dots - make it active only when dot is illuminated */
+.timeline-dot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(225, 82, 82, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0; /* Start hidden */
+  animation: none; /* No animation initially */
+  z-index: -1;
+}
+
+/* NEW: Active glow and pulse for the dot */
+.timeline-item.visible .timeline-dot {
+  background: #e15252; /* Main dot color when active */
+  box-shadow: 0 0 15px 5px rgba(225, 82, 82, 0.8), 0 0 30px 10px rgba(225, 82, 82, 0.4); /* Stronger glow */
+}
+
+.timeline-item.visible .timeline-dot::after {
+  opacity: 1; /* Show pulse */
+  animation: pulse 2s infinite; /* Activate pulse animation */
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.2);
+    opacity: 0;
+  }
+}
+
+.timeline-side {
+  width: 45%;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  position: relative;
+}
+
+.timeline-card {
+  background: linear-gradient(to bottom right, #e2dede, #7b605e);
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 280px;
+  min-height: 320px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.timeline-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+}
+
+.timeline-card h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  animation: fadeInUp 1s ease-out;
+}
+
+.timeline-card p {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-bottom: auto;
+}
+
+.timeline-card .read-more {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border: 2px solid rgb(200, 123, 123);
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: #e15252;
+  transition: background 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+}
+
+.timeline-card .read-more:hover {
+  background: white;
+  color: #e15252;
+}
+
+.timeline-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Time label mobile */
+.timeline-time.mobile {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #faf5f5;
+  background: #f47a7a;
+  padding: 0.3rem 0.9rem;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 2px 12px #b0b0b022;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+/* Desktop year label */
+.timeline-year {
+  display: none;
+  position: absolute;
+  top: -2.2rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #faf5f5;
+  background: #f47a7a;
+  padding: 0.9rem 1.2rem;
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 2px 12px #b0b0b022;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.timeline-year-left {
+  left: 66%;
+  transform: translate(-267%, 425%);
+}
+
+.timeline-year-right {
+  left: 27%;
+  transform: translate(265%, 425%);
+}
+
+/* Desktop only */
+@media (min-width: 769px) {
+  .timeline-year {
+    display: block;
+  }
+
+  .timeline-time.mobile {
+    display: none;
+  }
+
+  .timeline-item.right .timeline-side {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 2.5rem;
+    text-align: left;
+    transform: translateX(-4%);
+  }
+
+  .timeline-item.left .timeline-side {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    padding-right: 2.5rem;
+    margin-left: 60%;
+    text-align: right;
+  }
+
+  .timeline-card {
+    max-width: 380px;
+  }
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .timeline {
+    padding: 0 0.5rem;
+  }
+
+  .timeline::before {
+    left: 55px;
+    width: 4px;
+    transform: none;
+  }
+
+  .timeline::after { /* Adjust for mobile glowing line */
+    left: 55px;
+    width: 4px;
+    transform: none;
+  }
+
+  .timeline-item {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 2rem 0 2rem 0.5rem;
+    min-height: unset;
+  }
+
+  .timeline-dot {
+    left: 15px;
+    top: 0;
+    transform: translate(-50%, 0);
+    margin-bottom: 1rem;
+    width: 28px;
+    height: 28px;
+  }
+
+  .timeline-side.left,
+  .timeline-side.right {
+    width: 100%;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 0 0 0 2.5rem;
+    margin-bottom: 0.5rem;
+    position: static;
+    flex-direction: column;
+    
+  }
+
+  .timeline-horizontal-wrap,
+  .timeline-horizontal,
+  .timeline-year {
+    display: none !important;
+  }
+
+  .timeline-time.mobile {
+    transform: translateX(2%);
+  }
+
+  .timeline-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+}
+/* Background Visual Container */
+.bg-visuals {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -5;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* SVG Buildings - Real Estate/Office Growth */
+.city-animation {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40vh;
+  opacity: 0.1;
+  animation: cityRise 12s ease-in-out infinite alternate;
+  fill: #e15252;
+}
+
+.building {
+  animation: growUp 6s ease-in-out infinite alternate;
+  transform-origin: bottom;
+}
+
+@keyframes growUp {
+  0% { transform: scaleY(0.6); opacity: 0.4; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+
+@keyframes cityRise {
+  0% { transform: translateY(10px); }
+  100% { transform: translateY(-5px); }
+}
+
+/* Floating wave lines */
+.wave {
+  position: absolute;
+  width: 200%;
+  height: 100px;
+  background: radial-gradient(circle, rgba(225,82,82,0.2) 10%, transparent 70%);
+  animation: moveWave 10s linear infinite;
+  opacity: 0.15;
+  transform: rotate(-10deg);
+}
+
+.wave1 {
+  top: 30%;
+  left: -50%;
+  animation-delay: 0s;
+}
+
+.wave2 {
+  top: 60%;
+  left: -70%;
+  animation-delay: 5s;
+}
+
+@keyframes moveWave {
+  0% { transform: translateX(0) rotate(-10deg); }
+  100% { transform: translateX(50%) rotate(-10deg); }
+}
