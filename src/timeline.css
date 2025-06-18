@@ -9,6 +9,152 @@ body {
   overflow-x: hidden;
 }
 
+/* Filter Container - Common Styles */
+.filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 3rem auto 2rem auto;
+  max-width: 800px;
+  padding: 0 15px;
+  flex-wrap: wrap;
+  position: relative; /* Needed for positioning the custom dropdown */
+  z-index: 10; /* Ensure filter is above other content */
+}
+
+/* Desktop Filter Buttons */
+.filter-button {
+  background-color: white;
+  color: #e15252;
+  border: 2px solid #e15252;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+}
+
+.filter-button:hover {
+  background-color: #e15252;
+  color: white;
+  box-shadow: 0 6px 15px rgba(225, 82, 82, 0.4);
+  transform: translateY(-2px);
+}
+
+.filter-button.active {
+  background-color: #e15252;
+  color: white;
+  border-color: #e15252;
+  box-shadow: 0 6px 15px rgba(225, 82, 82, 0.6);
+}
+
+/* NEW: Custom Dropdown for Mobile */
+.custom-dropdown-mobile {
+  display: none; /* Hidden by default, only shown on mobile */
+  width: 100%;
+  max-width: 320px; /* Adjust width as needed */
+  background-color: white; /* Match the screenshot */
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Important for border-radius on children */
+}
+
+.dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #e15252; /* Red background as in screenshot */
+  color: white;
+  font-weight: 600;
+  font-size: 1.15rem;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle separator */
+}
+
+.dropdown-header.open {
+  border-bottom-left-radius: 0; /* Remove border-radius on bottom when open */
+  border-bottom-right-radius: 0;
+}
+
+.dropdown-arrow {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-arrow.down {
+  border-top: 8px solid white; /* Down arrow */
+}
+
+.dropdown-arrow.up {
+  border-bottom: 8px solid white; /* Up arrow */
+}
+
+.dropdown-options {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out; /* Smooth open/close animation */
+  background-color: white; /* Background for options list */
+  border-radius: 0 0 8px 8px; /* Rounded corners only when closed or at bottom */
+}
+
+.dropdown-options.show {
+  max-height: 300px; /* Adjust to accommodate all options, or use a larger value */
+  overflow-y: auto; /* Enable scrolling if too many options */
+}
+
+.dropdown-option {
+  padding: 12px 20px;
+  color: #333;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border-bottom: 1px solid #eee; /* Separator between options */
+}
+
+.dropdown-option:last-child {
+  border-bottom: none; /* No border for the last option */
+}
+
+.dropdown-option:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-option.active {
+  background-color: #fef7f7; /* Lighter red tint for active, similar to original buttons */
+  color: #e15252; /* Active text color */
+  font-weight: 600;
+}
+
+
+/* Responsive adjustments for filter buttons and dropdown */
+@media (max-width: 768px) {
+  .filter-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 0; /* Remove gap when using custom dropdown */
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    padding: 0 15px; /* Adjust padding to center dropdown within container */
+  }
+
+  .filter-button {
+    display: none; /* Hide individual buttons on mobile */
+  }
+
+  .custom-dropdown-mobile {
+    display: block; /* Show custom dropdown on mobile */
+  }
+}
+
+
+/* Timeline Main Structure */
 .timeline {
   position: relative;
   margin: 2rem auto;
@@ -32,15 +178,14 @@ body {
   z-index: 0;
 }
 
-/* NEW: The glowing line overlay */
-/* In timeline.css */
+/* The glowing line overlay */
 .timeline::after {
   content: '';
   position: absolute;
   left: 50%;
   top: 0;
-  width: 6px; /* Same width as the main line */
-  height: var(--glow-line-height, 0); /* NEW LINE: This uses the JS-controlled variable */
+  width: 6px;
+  height: var(--glow-line-height, 0);
   background: linear-gradient(180deg, rgba(225, 82, 82, 0.2) 0%, rgba(225, 82, 82, 0.8) 50%, rgba(225, 82, 82, 0.2) 100%);
   box-shadow: 0 0 15px 5px rgba(225, 82, 82, 0.6);
   transform: translateX(-50%);
@@ -50,6 +195,7 @@ body {
 }
 
 
+/* Timeline Item */
 .timeline-item {
   display: flex;
   justify-content: space-between;
@@ -68,6 +214,7 @@ body {
   transform: translateY(0);
 }
 
+/* Timeline Dot (commented out in JS, but keeping styles if you re-enable) */
 .timeline-dot {
   position: absolute;
   left: 50%;
@@ -75,15 +222,15 @@ body {
   transform: translate(-50%, -50%);
   width: 32px;
   height: 32px;
-  background: #b0b0b0; /* Default dot color */
+  background: #b0b0b0;
   border: 5px solid white;
   border-radius: 50%;
   z-index: 2;
-  box-shadow: 0 0 8px 2px #b0b0b044; /* Initial subtle glow */
-  transition: all 0.5s ease; /* Smooth transition for glow */
+  box-shadow: 0 0 8px 2px #b0b0b044;
+  transition: all 0.5s ease;
 }
 
-/* Updated: glowing pulse animation for dots - make it active only when dot is illuminated */
+/* Glowing pulse animation for dots - make it active only when dot is illuminated */
 .timeline-dot::after {
   content: '';
   position: absolute;
@@ -94,20 +241,20 @@ body {
   background: rgba(225, 82, 82, 0.3);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0; /* Start hidden */
-  animation: none; /* No animation initially */
+  opacity: 0;
+  animation: none;
   z-index: -1;
 }
 
-/* NEW: Active glow and pulse for the dot */
+/* Active glow and pulse for the dot */
 .timeline-item.visible .timeline-dot {
-  background: #e15252; /* Main dot color when active */
-  box-shadow: 0 0 15px 5px rgba(225, 82, 82, 0.8), 0 0 30px 10px rgba(225, 82, 82, 0.4); /* Stronger glow */
+  background: #e15252;
+  box-shadow: 0 0 15px 5px rgba(225, 82, 82, 0.8), 0 0 30px 10px rgba(225, 82, 82, 0.4);
 }
 
 .timeline-item.visible .timeline-dot::after {
-  opacity: 1; /* Show pulse */
-  animation: pulse 2s infinite; /* Activate pulse animation */
+  opacity: 1;
+  animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
@@ -247,7 +394,6 @@ body {
   white-space: nowrap;
   z-index: 2;
 }
-
 .timeline-year-left {
   left: 66%;
   transform: translate(-267%, 425%);
@@ -258,39 +404,138 @@ body {
   transform: translate(265%, 425%);
 }
 
+
 /* Desktop only */
-@media (min-width: 769px) {
+
+@media (min-width: 1050px) {
   .timeline-year {
     display: block;
+    position: absolute;
+    top: 14.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    font-size: 1.9rem;
+    color: #faf5f5;
+    background: #f47a7a;
+    padding: 1.2rem 1.8rem;
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 2px 12px #b0b0b022;
+    white-space: nowrap;
+    z-index: 2;
   }
 
   .timeline-time.mobile {
     display: none;
   }
 
-  .timeline-item.right .timeline-side {
+  .timeline-item.right .timeline-side{
     flex-direction: row;
     justify-content: flex-start;
     padding-left: 2.5rem;
     text-align: left;
-    transform: translateX(-4%);
+    margin-left: 0;
+    width: 45%;
+    margin-right: 66%;
   }
 
   .timeline-item.left .timeline-side {
     flex-direction: row-reverse;
     justify-content: flex-end;
     padding-right: 2.5rem;
-    margin-left: 60%;
+    padding-left: 0;
     text-align: right;
+    margin-left: 66%;
+    margin-right: 0;
+    width: 40%;
   }
 
   .timeline-card {
-    max-width: 380px;
+    max-width: 32vw;
+    min-width: 260px;
+    width: 100%;
+  }
+
+  .timeline-image {
+    width: 100%;
+    max-width: 400px;
+    min-width: 180px;
+    height: 22vw;
+    max-height: 340px;
+    min-height: 180px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 1rem;
   }
 }
 
-/* Mobile view */
-@media (max-width: 768px) {
+
+@media (min-width: 769px) and (max-width: 949px) {
+  .timeline-year {
+    display: block;
+    position: absolute;
+    top: 14.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #faf5f5;
+    background: #f47a7a;
+    padding: 0.9rem 1.2rem;
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 2px 12px #b0b0b022;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .timeline-time.mobile {
+    display: none;
+  }
+
+  .timeline-item.right .timeline-side{
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 2.5rem;
+    text-align: left;
+    margin-left: 0;
+    width: 45%;
+    margin-right: 66%;
+  }
+
+  .timeline-item.left .timeline-side {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    padding-right: 2.5rem;
+    padding-left: 0;
+    text-align: right;
+    margin-left: 66%;
+    margin-right: 0;
+    width: 40%;
+  }
+
+  .timeline-card {
+    max-width: 32vw;
+    min-width: 260px;
+    width: 100%;
+  }
+
+  .timeline-image {
+    width: 100%;
+    max-width: 400px;
+    min-width: 180px;
+    height: 22vw;
+    max-height: 340px;
+    min-height: 180px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Mobile view - specific adjustments */
+@media (max-width: 768px) and (min-width: 500px) {
   .timeline {
     padding: 0 0.5rem;
   }
@@ -301,7 +546,7 @@ body {
     transform: none;
   }
 
-  .timeline::after { /* Adjust for mobile glowing line */
+  .timeline::after {
     left: 55px;
     width: 4px;
     transform: none;
@@ -332,7 +577,7 @@ body {
     margin-bottom: 0.5rem;
     position: static;
     flex-direction: column;
-    
+
   }
 
   .timeline-horizontal-wrap,
@@ -352,6 +597,77 @@ body {
     border-radius: 8px;
   }
 }
+
+
+/*mobile ui*/
+@media (max-width: 499px){
+  .timeline {
+    padding: 0 0.5rem;
+  }
+
+  .timeline::before {
+    left: 55px;
+    width: 4px;
+    transform: none;
+  }
+
+  .timeline::after {
+    left: 55px;
+    width: 4px;
+    transform: none;
+  }
+
+  .timeline-item {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 2rem 0 2rem 0.5rem;
+    min-height: unset;
+  }
+
+  .timeline-dot {
+    left: 15px;
+    top: 0;
+    transform: translate(-50%, 0);
+    margin-bottom: 1rem;
+    width: 28px;
+    height: 28px;
+  }
+  .timeline-card {
+    width: 70%;
+    right: -8%;
+  }
+
+  .timeline-side.left,
+  .timeline-side.right {
+    width: 100%;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 0 0 0 2.5rem;
+    margin-bottom: 0.5rem;
+    position: static;
+    flex-direction: column;
+
+  }
+
+  .timeline-horizontal-wrap,
+  .timeline-horizontal,
+  .timeline-year {
+    display: none !important;
+  }
+
+  .timeline-time.mobile {
+    transform: translateX(2%);
+  }
+
+  .timeline-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+}
+
 /* Background Visual Container */
 .bg-visuals {
   position: fixed;
