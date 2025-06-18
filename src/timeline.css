@@ -1,251 +1,797 @@
-.hero-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4rem 8%;
-  font-family: 'Segoe UI', sans-serif;
-  position: relative;
-  flex-wrap: wrap;
-  background-image: url('./image.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: #fff;
-  overflow: hidden;
-  min-height: 60vh;
+/* qr-timeline.css */
+
+qr-timeline-body {
+margin: 0;
+padding: 0;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: linear-gradient(to right, #fef7f7, #f8f6f4);
+scroll-behavior: smooth;
+overflow-x: hidden;
 }
 
-.hero-container::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 0;
+/* Filter Container - Common Styles */
+.qr-timeline-filter-container {
+display: flex;
+justify-content: center;
+gap: 15px;
+margin: 3rem auto 2rem auto;
+max-width: 800px;
+padding: 0 15px;
+flex-wrap: wrap;
+position: relative; /* Needed for positioning the custom dropdown */
+z-index: 10; /* Ensure filter is above other content */
 }
 
-.hero-left, .hero-right {
-  z-index: 2;
+/* Desktop Filter Buttons */
+.qr-timeline-filter-button {
+background-color: white;
+color: #e15252;
+border: 2px solid #e15252;
+padding: 12px 25px;
+border-radius: 10px;
+font-size: 1.1rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+white-space: nowrap;
 }
 
-.hero-left {
-  max-width: 40%;
-  min-width: 300px;
+.qr-timeline-filter-button:hover {
+background-color: #e15252;
+color: white;
+box-shadow: 0 6px 15px rgba(225, 82, 82, 0.4);
+transform: translateY(-2px);
 }
 
-.logo-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1.5rem;
+.qr-timeline-filter-button.active {
+background-color: #e15252;
+color: white;
+border-color: #e15252;
+box-shadow: 0 6px 15px rgba(225, 82, 82, 0.6);
 }
 
-.hero-text-logo {
-  width: 200px;
-  height: auto;
-  object-fit: contain;
+/* NEW: Custom Dropdown for Mobile */
+.qr-timeline-custom-dropdown-mobile {
+display: none; /* Hidden by default, only shown on mobile */
+width: 100%;
+max-width: 320px; /* Adjust width as needed */
+background-color: white; /* Match the screenshot */
+border-radius: 8px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+overflow: hidden; /* Important for border-radius on children */
 }
 
-.hero-left h1 {
-  font-size: 4rem;
-  color: #fff;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  line-height: 6;
+.qr-timeline-dropdown-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 15px 20px;
+background-color: #e15252; /* Red background as in screenshot */
+color: white;
+font-weight: 600;
+font-size: 1.15rem;
+cursor: pointer;
+border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle separator */
 }
 
-.hero-left p {
-  font-size: 1.5rem;
-  color: #eee;
-  margin-bottom: 2rem;
+.qr-timeline-dropdown-header.open {
+border-bottom-left-radius: 0; /* Remove border-radius on bottom when open */
+border-bottom-right-radius: 0;
 }
 
-.cta-button {
-  padding: 1.2rem 2.5rem;
-  background-color: #e15252;
-  color: #fff;
-  border: none;
-  font-size: 1.3rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+.qr-timeline-dropdown-arrow {
+width: 0;
+height: 0;
+border-left: 8px solid transparent;
+border-right: 8px solid transparent;
+transition: transform 0.3s ease;
 }
 
-.cta-button:hover {
-  background-color: #c94141;
-  transform: scale(1.05);
+.qr-timeline-dropdown-arrow.down {
+border-top: 8px solid white; /* Down arrow */
 }
 
-.hero-right {
-  position: relative;
-  width: 50%;
-  min-width: 320px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
+.qr-timeline-dropdown-arrow.up {
+border-bottom: 8px solid white; /* Up arrow */
 }
 
-.building {
-  position: relative;
-  width: 300px;
-  height: 400px;
-  background: linear-gradient(to right, #f8f8f8, #d3d3d3);
-  box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.1);
-  border: 2px solid #222;
-  border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.4s ease;
+.qr-timeline-dropdown-options {
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.4s ease-out; /* Smooth open/close animation */
+background-color: white; /* Background for options list */
+border-radius: 0 0 8px 8px; /* Rounded corners only when closed or at bottom */
 }
 
-.building:hover {
-  transform: translateY(-5px);
+.qr-timeline-dropdown-options.show {
+max-height: 300px; /* Adjust to accommodate all options, or use a larger value */
+overflow-y: auto; /* Enable scrolling if too many options */
 }
 
-.tower-logo {
-  position: absolute;
-  top: 28%;
-  left: 30%;
-  width: 40px;
-  transform: rotate(-2deg);
-  opacity: 0.95;
-  filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 3;
+.qr-timeline-dropdown-option {
+padding: 12px 20px;
+color: #333;
+font-size: 1rem;
+cursor: pointer;
+transition: background-color 0.2s ease, color 0.2s ease;
+border-bottom: 1px solid #eee; /* Separator between options */
 }
 
-.growth-arrow {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('https://i.imgur.com/rwM8lIm.png') no-repeat;
-  background-size: contain;
-  background-position: right center;
-  pointer-events: none;
-  z-index: 0;
-  animation: floatArrow 3s ease-in-out infinite alternate;
+.qr-timeline-dropdown-option:last-child {
+border-bottom: none; /* No border for the last option */
 }
 
-@keyframes floatArrow {
-  0% {
-    transform: translateY(0px);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(-10px);
-    opacity: 1;
-  }
+.qr-timeline-dropdown-option:hover {
+background-color: #f0f0f0;
 }
 
-/* Tablet */
-@media screen and (max-width: 1024px) {
-  .hero-container {
-    flex-direction: column;
-    padding: 3rem 5%;
-    text-align: center;
-  }
-
-  .hero-left, .hero-right {
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .hero-left h1 {
-    font-size: 3.2rem;
-  }
-
-  .hero-left p {
-    font-size: 1.3rem;
-  }
-
-  .building {
-    width: 280px;
-    height: 370px;
-  }
-
-  .tower-logo {
-    width: 35px;
-    top: 27%;
-    left: 28%;
-  }
-
-  .hero-text-logo {
-    width: 100px;
-  }
+.qr-timeline-dropdown-option.active {
+background-color: #fef7f7; /* Lighter red tint for active, similar to original buttons */
+color: #e15252; /* Active text color */
+font-weight: 600;
 }
 
-/* Mobile */
-@media screen and (max-width: 768px) {
-  .hero-container {
-    flex-direction: column;
-    padding: 2rem 4%;
-  }
 
-  .hero-left {
-    order: 2;
-    margin-top: 2rem;
-    text-align: center;
-  }
-
-  .hero-left h1 {
-    font-size: 2.5rem;
-  }
-
-  .hero-left p {
-    font-size: 1.2rem;
-  }
-
-  .hero-right {
-    order: 1;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .building {
-    width: 250px;
-    height: 350px;
-  }
-
-  .tower-logo {
-    width: 30px;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%) rotate(-2deg);
-    z-index: 4;
-  }
-
-  .hero-text-logo {
-    width: 80px;
-  }
+/* Responsive adjustments for filter buttons and dropdown */
+@media (max-width: 768px) {
+.qr-timeline-filter-container {
+flex-direction: column;
+align-items: center;
+gap: 0; /* Remove gap when using custom dropdown */
+margin-top: 2rem;
+margin-bottom: 1.5rem;
+padding: 0 15px; /* Adjust padding to center dropdown within container */
 }
 
-/* Very Small Devices */
-@media screen and (max-width: 480px) {
-  .hero-left h1 {
-    font-size: 3rem;
-  }
+.qr-timeline-filter-button {
+display: none; /* Hide individual buttons on mobile */
+}
 
-  .hero-left p {
-    font-size: 1.1rem;
-  }
+.qr-timeline-custom-dropdown-mobile {
+display: block; /* Show custom dropdown on mobile */
+}
+}
 
-  .cta-button {
-    font-size: 1.1rem;
-    padding: 1rem 2rem;
-  }
 
-  .building {
-    width: 220px;
-    height: 320px;
-  }
+/* Timeline Main Structure */
+.qr-timeline-timeline {
+position: relative;
+margin: 2rem auto;
+padding: 1rem 0;
+width: 100%;
+max-width: 1100px;
+background: transparent;
+}
 
-  .tower-logo {
-    width: 28px;
-  }
+.qr-timeline-timeline::before {
+content: '';
+position: absolute;
+left: 50%;
+top: 0;
+bottom: 0;
+width: 6px;
+background: linear-gradient(180deg, #b0b0b0 0%, #e0e0e0 100%);
+box-shadow: 0 0 12px 2px #b0b0b044;
+transform: translateX(-50%);
+border-radius: 3px;
+z-index: 0;
+}
 
-  .hero-text-logo {
-    width: 150px;
-  }
+/* The glowing line overlay */
+.qr-timeline-timeline::after {
+content: '';
+position: absolute;
+left: 50%;
+top: 0;
+width: 6px;
+height: var(--glow-line-height, 0);
+background: linear-gradient(180deg, rgba(225, 82, 82, 0.2) 0%, rgba(225, 82, 82, 0.8) 50%, rgba(225, 82, 82, 0.2) 100%);
+box-shadow: 0 0 15px 5px rgba(225, 82, 82, 0.6);
+transform: translateX(-50%);
+border-radius: 3px;
+z-index: 1;
+transition: height 0.9s ease-out;
+}
+
+
+/* Timeline Item */
+.qr-timeline-timeline-item {
+display: flex;
+justify-content: space-between;
+align-items: center;
+position: relative;
+margin: 75px 0;
+min-height: 160px;
+opacity: 0;
+transform: translateY(40px);
+transition: all 0.8s ease-out;
+z-index: 3;
+}
+
+.qr-timeline-timeline-item.visible {
+opacity: 1;
+transform: translateY(0);
+}
+
+/* Timeline Dot (commented out in JS, but keeping styles if you re-enable) */
+.qr-timeline-timeline-dot {
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+width: 32px;
+height: 32px;
+background: #b0b0b0;
+border: 5px solid white;
+border-radius: 50%;
+z-index: 2;
+box-shadow: 0 0 8px 2px #b0b0b044;
+transition: all 0.5s ease;
+}
+
+/* Glowing pulse animation for dots - make it active only when dot is illuminated */
+.qr-timeline-timeline-dot::after {
+content: '';
+position: absolute;
+top: 50%;
+left: 50%;
+width: 100%;
+height: 100%;
+background: rgba(225, 82, 82, 0.3);
+border-radius: 50%;
+transform: translate(-50%, -50%);
+opacity: 0;
+animation: none;
+z-index: -1;
+}
+
+/* Active glow and pulse for the dot */
+.qr-timeline-timeline-item.visible .qr-timeline-timeline-dot {
+background: #e15252;
+box-shadow: 0 0 15px 5px rgba(225, 82, 82, 0.8), 0 0 30px 10px rgba(225, 82, 82, 0.4);
+}
+
+.qr-timeline-timeline-item.visible .qr-timeline-timeline-dot::after {
+opacity: 1;
+animation: qr-timeline-pulse 2s infinite;
+}
+
+@keyframes qr-timeline-pulse {
+0% {
+transform: translate(-50%, -50%) scale(1);
+opacity: 0.8;
+}
+100% {
+transform: translate(-50%, -50%) scale(2.2);
+opacity: 0;
+}
+}
+
+.qr-timeline-timeline-side {
+width: 45%;
+display: flex;
+align-items: center;
+z-index: 1;
+position: relative;
+}
+
+.qr-timeline-timeline-card {
+background: linear-gradient(to bottom right, #e2dede, #7b605e);
+padding: 1.5rem;
+border-radius: 20px;
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+color: white;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+width: 100%;
+max-width: 280px;
+min-height: 320px;
+text-align: left;
+position: relative;
+overflow: hidden;
+transition: all 0.3s ease;
+}
+
+.qr-timeline-timeline-card:hover {
+transform: translateY(-3px);
+box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+}
+
+.qr-timeline-timeline-card h3 {
+font-size: 1.4rem;
+font-weight: 700;
+margin-bottom: 1rem;
+animation: qr-timeline-fadeInUp 1s ease-out;
+}
+
+.qr-timeline-timeline-card p {
+font-size: 1rem;
+font-weight: 400;
+line-height: 1.4;
+margin-bottom: auto;
+}
+
+.qr-timeline-timeline-card .qr-timeline-read-more {
+margin-top: 1.5rem;
+padding: 0.75rem 1rem;
+text-align: center;
+border: 2px solid rgb(200, 123, 123);
+border-radius: 10px;
+color: white;
+font-weight: bold;
+text-transform: uppercase;
+letter-spacing: 1px;
+background: #e15252;
+transition: background 0.3s ease, color 0.3s ease;
+text-decoration: none;
+}
+
+.qr-timeline-timeline-card .qr-timeline-read-more:hover {
+background: white;
+color: #e15252;
+}
+
+.qr-timeline-timeline-image {
+width: 100%;
+height: 180px;
+object-fit: cover;
+border-radius: 16px;
+margin-bottom: 1rem;
+animation: qr-timeline-fadeIn 1s ease-out;
+}
+
+@keyframes qr-timeline-fadeInUp {
+0% {
+opacity: 0;
+transform: translateY(20px);
+}
+100% {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+@keyframes qr-timeline-fadeIn {
+from {
+opacity: 0;
+}
+to {
+opacity: 1;
+}
+}
+
+/* Time label mobile */
+.qr-timeline-timeline-time.mobile {
+display: block;
+margin-bottom: 0.5rem;
+font-weight: bold;
+font-size: 1.4rem;
+color: #faf5f5;
+background: #f47a7a;
+padding: 0.3rem 0.9rem;
+border-radius: 10px;
+border: 2px solid #e0e0e0;
+box-shadow: 0 2px 12px #b0b0b022;
+white-space: nowrap;
+z-index: 2;
+}
+
+/* Desktop year label */
+.qr-timeline-timeline-year {
+display: none;
+position: absolute;
+top: -2.2rem;
+font-weight: bold;
+font-size: 1.2rem;
+color: #faf5f5;
+background: #f47a7a;
+padding: 0.9rem 1.2rem;
+border-radius: 12px;
+border: 2px solid #e0e0e0;
+box-shadow: 0 2px 12px #b0b0b022;
+white-space: nowrap;
+z-index: 2;
+}
+.qr-timeline-timeline-year-left {
+left: 66%;
+transform: translate(-267%, 425%);
+}
+
+.qr-timeline-timeline-year-right {
+left: 27%;
+transform: translate(265%, 425%);
+}
+
+
+/* Desktop only */
+
+@media (min-width: 1050px) {
+.qr-timeline-timeline-year {
+display: block;
+position: absolute;
+top: 14.2rem;
+left: 50%;
+transform: translateX(-50%);
+font-weight: bold;
+font-size: 1.9rem;
+color: #faf5f5;
+background: #f47a7a;
+padding: 1.2rem 1.8rem;
+border-radius: 12px;
+border: 2px solid #e0e0e0;
+box-shadow: 0 2px 12px #b0b0b022;
+white-space: nowrap;
+z-index: 2;
+}
+
+.qr-timeline-timeline-time.mobile {
+display: none;
+}
+
+.qr-timeline-timeline-item.right .qr-timeline-timeline-side{
+flex-direction: row;
+justify-content: flex-start;
+padding-left: 2.5rem;
+text-align: left;
+margin-left: 0;
+width: 45%;
+margin-right: 66%;
+}
+
+.qr-timeline-timeline-item.left .qr-timeline-timeline-side {
+flex-direction: row-reverse;
+justify-content: flex-end;
+padding-right: 2.5rem;
+padding-left: 0;
+text-align: right;
+margin-left: 66%;
+margin-right: 0;
+width: 40%;
+}
+
+.qr-timeline-timeline-card {
+max-width: 32vw;
+min-width: 260px;
+width: 100%;
+}
+
+.qr-timeline-timeline-image {
+width: 100%;
+max-width: 400px;
+min-width: 180px;
+height: 22vw;
+max-height: 340px;
+min-height: 180px;
+object-fit: cover;
+border-radius: 16px;
+margin-bottom: 1rem;
+}
+}
+
+/* New media query for 950px to 1049px */
+@media (min-width: 950px) and (max-width: 1049px) {
+.qr-timeline-timeline-year {
+display: block;
+position: absolute;
+top: 14.2rem; /* Adjust as needed */
+left: 50%;
+transform: translateX(-50%);
+font-weight: bold;
+font-size: 1.6rem; /* Slightly smaller font size */
+color: #faf5f5;
+background: #f47a7a;
+padding: 1rem 1.5rem; /* Adjusted padding */
+border-radius: 12px;
+border: 2px solid #e0e0e0;
+box-shadow: 0 2px 12px #b0b0b022;
+white-space: nowrap;
+z-index: 2;
+}
+
+.qr-timeline-timeline-time.mobile {
+display: none;
+}
+
+.qr-timeline-timeline-item.right .qr-timeline-timeline-side {
+flex-direction: row;
+justify-content: flex-start;
+padding-left: 2rem; /* Slightly reduced padding */
+text-align: left;
+margin-left: 0;
+width: 48%; /* Adjust width to fit */
+margin-right: 58%; /* Adjust margin */
+}
+
+.qr-timeline-timeline-item.left .qr-timeline-timeline-side {
+flex-direction: row-reverse;
+justify-content: flex-end;
+padding-right: 2rem; /* Slightly reduced padding */
+padding-left: 0;
+text-align: right;
+margin-left: 58%; /* Adjust margin */
+margin-right: 0;
+width: 48%; /* Adjust width to fit */
+}
+
+.qr-timeline-timeline-card {
+max-width: 38vw; /* Adjust max-width to allow content to fit better */
+min-width: 240px; /* Slightly smaller min-width */
+width: 100%;
+padding: 1.2rem; /* Slightly reduced padding */
+}
+
+.qr-timeline-timeline-image {
+width: 100%;
+max-width: 360px; /* Adjusted max-width for image */
+min-width: 160px; /* Adjusted min-width for image */
+height: 18vw; /* Adjusted height */
+max-height: 300px; /* Adjusted max-height */
+min-height: 160px; /* Adjusted min-height */
+}
+}
+
+
+@media (min-width: 769px) and (max-width: 949px) {
+.qr-timeline-timeline-year {
+display: block;
+position: absolute;
+top: 14.2rem;
+left: 50%;
+transform: translateX(-50%);
+font-weight: bold;
+font-size: 1.2rem;
+color: #faf5f5;
+background: #f47a7a;
+padding: 0.9rem 1.2rem;
+border-radius: 12px;
+border: 2px solid #e0e0e0;
+box-shadow: 0 2px 12px #b0b0b022;
+white-space: nowrap;
+z-index: 2;
+}
+
+.qr-timeline-timeline-time.mobile {
+display: none;
+}
+
+.qr-timeline-timeline-item.right .qr-timeline-timeline-side{
+flex-direction: row;
+justify-content: flex-start;
+padding-left: 2.5rem;
+text-align: left;
+margin-left: 0;
+width: 45%;
+margin-right: 66%;
+}
+
+.qr-timeline-timeline-item.left .qr-timeline-timeline-side {
+flex-direction: row-reverse;
+justify-content: flex-end;
+padding-right: 2.5rem;
+padding-left: 0;
+text-align: right;
+margin-left: 66%;
+margin-right: 0;
+width: 40%;
+}
+
+.qr-timeline-timeline-card {
+max-width: 32vw;
+min-width: 260px;
+width: 100%;
+}
+
+.qr-timeline-timeline-image {
+width: 100%;
+max-width: 400px;
+min-width: 180px;
+height: 22vw;
+max-height: 340px;
+min-height: 180px;
+object-fit: cover;
+border-radius: 16px;
+margin-bottom: 1rem;
+}
+}
+
+/* Mobile view - specific adjustments */
+@media (max-width: 768px) and (min-width: 500px) {
+.qr-timeline-timeline {
+padding: 0 0.5rem;
+}
+
+.qr-timeline-timeline::before {
+left: 55px;
+width: 4px;
+transform: none;
+}
+
+.qr-timeline-timeline::after {
+left: 55px;
+width: 4px;
+transform: none;
+}
+
+.qr-timeline-timeline-item {
+flex-direction: column;
+align-items: flex-start;
+margin: 2rem 0 2rem 0.5rem;
+min-height: unset;
+}
+
+.qr-timeline-timeline-dot {
+left: 15px;
+top: 0;
+transform: translate(-50%, 0);
+margin-bottom: 1rem;
+width: 28px;
+height: 28px;
+}
+
+.qr-timeline-timeline-side.left,
+.qr-timeline-timeline-side.right {
+width: 100%;
+justify-content: flex-start;
+text-align: left;
+padding: 0 0 0 2.5rem;
+margin-bottom: 0.5rem;
+position: static;
+flex-direction: column;
+
+}
+
+.qr-timeline-timeline-horizontal-wrap,
+.qr-timeline-timeline-horizontal,
+.qr-timeline-timeline-year {
+display: none !important;
+}
+
+.qr-timeline-timeline-time.mobile {
+transform: translateX(2%);
+}
+
+.qr-timeline-timeline-image {
+width: 100%;
+max-width: 100%;
+height: auto;
+border-radius: 8px;
+}
+}
+
+
+/*mobile ui*/
+@media (max-width: 499px){
+.qr-timeline-timeline {
+padding: 0 0.5rem;
+}
+
+.qr-timeline-timeline::before {
+left: 55px;
+width: 4px;
+transform: none;
+}
+
+.qr-timeline-timeline::after {
+left: 55px;
+width: 4px;
+transform: none;
+}
+
+.qr-timeline-timeline-item {
+flex-direction: column;
+align-items: flex-start;
+margin: 2rem 2rem 0.5rem;
+min-height: unset;
+}
+
+.qr-timeline-timeline-dot {
+left: 15px;
+top: 0;
+transform: translate(-50%, 0);
+margin-bottom: 1rem;
+width: 28px;
+height: 28px;
+}
+.qr-timeline-timeline-card {
+width: 70%;
+right: -8%;
+}
+
+.qr-timeline-timeline-side.left,
+.qr-timeline-timeline-side.right {
+width: 100%;
+justify-content: flex-start;
+text-align: left;
+padding: 0 0 2.5rem;
+margin-bottom: 0.5rem;
+position: static;
+flex-direction: column;
+
+}
+
+.qr-timeline-timeline-horizontal-wrap,
+.qr-timeline-timeline-horizontal,
+.qr-timeline-timeline-year {
+display: none !important;
+}
+
+.qr-timeline-timeline-time.mobile {
+transform: translateX(-20%);
+}
+
+.qr-timeline-timeline-image {
+width: 100%;
+max-width: 100%;
+height: auto;
+border-radius: 8px;
+}
+
+}
+
+/* Background Visual Container */
+.qr-timeline-bg-visuals {
+position: fixed;
+width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+z-index: -5;
+overflow: hidden;
+pointer-events: none;
+}
+
+/* SVG Buildings - Real Estate/Office Growth */
+.qr-timeline-city-animation {
+position: absolute;
+bottom: 0;
+width: 100%;
+height: 40vh;
+opacity: 0.1;
+animation: qr-timeline-cityRise 12s ease-in-out infinite alternate;
+fill: #e15252;
+}
+
+.qr-timeline-building {
+animation: qr-timeline-growUp 6s ease-in-out infinite alternate;
+transform-origin: bottom;
+}
+
+@keyframes qr-timeline-growUp {
+0% { transform: scaleY(0.6); opacity: 0.4; }
+100% { transform: scaleY(1); opacity: 1; }
+}
+
+@keyframes qr-timeline-cityRise {
+0% { transform: translateY(10px); }
+100% { transform: translateY(-5px); }
+}
+
+/* Floating wave lines */
+.qr-timeline-wave {
+position: absolute;
+width: 200%;
+height: 100px;
+background: radial-gradient(circle, rgba(225,82,82,0.2) 10%, transparent 70%);
+animation: qr-timeline-moveWave 10s linear infinite;
+opacity: 0.15;
+transform: rotate(-10deg);
+}
+
+.qr-timeline-wave1 {
+top: 30%;
+left: -50%;
+animation-delay: 0s;
+}
+
+.qr-timeline-wave2 {
+top: 60%;
+left: -70%;
+animation-delay: 5s;
+}
+
+@keyframes qr-timeline-moveWave {
+0% { transform: translateX(0) rotate(-10deg); }
+100% { transform: translateX(50%) rotate(-10deg); }
 }
