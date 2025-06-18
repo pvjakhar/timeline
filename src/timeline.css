@@ -1,6 +1,6 @@
-/* timeline.css */
+/* qr-timeline.css */
 
-body {
+qr-timeline-body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -10,7 +10,7 @@ body {
 }
 
 /* Filter Container - Common Styles */
-.filter-container {
+.qr-timeline-filter-container {
   display: flex;
   justify-content: center;
   gap: 15px;
@@ -23,7 +23,7 @@ body {
 }
 
 /* Desktop Filter Buttons */
-.filter-button {
+.qr-timeline-filter-button {
   background-color: white;
   color: #e15252;
   border: 2px solid #e15252;
@@ -37,14 +37,14 @@ body {
   white-space: nowrap;
 }
 
-.filter-button:hover {
+.qr-timeline-filter-button:hover {
   background-color: #e15252;
   color: white;
   box-shadow: 0 6px 15px rgba(225, 82, 82, 0.4);
   transform: translateY(-2px);
 }
 
-.filter-button.active {
+.qr-timeline-filter-button.active {
   background-color: #e15252;
   color: white;
   border-color: #e15252;
@@ -52,7 +52,7 @@ body {
 }
 
 /* NEW: Custom Dropdown for Mobile */
-.custom-dropdown-mobile {
+.qr-timeline-custom-dropdown-mobile {
   display: none; /* Hidden by default, only shown on mobile */
   width: 100%;
   max-width: 320px; /* Adjust width as needed */
@@ -62,7 +62,7 @@ body {
   overflow: hidden; /* Important for border-radius on children */
 }
 
-.dropdown-header {
+.qr-timeline-dropdown-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -75,12 +75,12 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle separator */
 }
 
-.dropdown-header.open {
+.qr-timeline-dropdown-header.open {
   border-bottom-left-radius: 0; /* Remove border-radius on bottom when open */
   border-bottom-right-radius: 0;
 }
 
-.dropdown-arrow {
+.qr-timeline-dropdown-arrow {
   width: 0;
   height: 0;
   border-left: 8px solid transparent;
@@ -88,15 +88,15 @@ body {
   transition: transform 0.3s ease;
 }
 
-.dropdown-arrow.down {
+.qr-timeline-dropdown-arrow.down {
   border-top: 8px solid white; /* Down arrow */
 }
 
-.dropdown-arrow.up {
+.qr-timeline-dropdown-arrow.up {
   border-bottom: 8px solid white; /* Up arrow */
 }
 
-.dropdown-options {
+.qr-timeline-dropdown-options {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.4s ease-out; /* Smooth open/close animation */
@@ -104,12 +104,12 @@ body {
   border-radius: 0 0 8px 8px; /* Rounded corners only when closed or at bottom */
 }
 
-.dropdown-options.show {
+.qr-timeline-dropdown-options.show {
   max-height: 300px; /* Adjust to accommodate all options, or use a larger value */
   overflow-y: auto; /* Enable scrolling if too many options */
 }
 
-.dropdown-option {
+.qr-timeline-dropdown-option {
   padding: 12px 20px;
   color: #333;
   font-size: 1rem;
@@ -118,15 +118,15 @@ body {
   border-bottom: 1px solid #eee; /* Separator between options */
 }
 
-.dropdown-option:last-child {
+.qr-timeline-dropdown-option:last-child {
   border-bottom: none; /* No border for the last option */
 }
 
-.dropdown-option:hover {
+.qr-timeline-dropdown-option:hover {
   background-color: #f0f0f0;
 }
 
-.dropdown-option.active {
+.qr-timeline-dropdown-option.active {
   background-color: #fef7f7; /* Lighter red tint for active, similar to original buttons */
   color: #e15252; /* Active text color */
   font-weight: 600;
@@ -135,7 +135,7 @@ body {
 
 /* Responsive adjustments for filter buttons and dropdown */
 @media (max-width: 768px) {
-  .filter-container {
+  .qr-timeline-filter-container {
     flex-direction: column;
     align-items: center;
     gap: 0; /* Remove gap when using custom dropdown */
@@ -144,18 +144,18 @@ body {
     padding: 0 15px; /* Adjust padding to center dropdown within container */
   }
 
-  .filter-button {
+  .qr-timeline-filter-button {
     display: none; /* Hide individual buttons on mobile */
   }
 
-  .custom-dropdown-mobile {
+  .qr-timeline-custom-dropdown-mobile {
     display: block; /* Show custom dropdown on mobile */
   }
 }
 
 
 /* Timeline Main Structure */
-.timeline {
+.qr-timeline-timeline {
   position: relative;
   margin: 2rem auto;
   padding: 1rem 0;
@@ -164,7 +164,7 @@ body {
   background: transparent;
 }
 
-.timeline::before {
+.qr-timeline-timeline::before {
   content: '';
   position: absolute;
   left: 50%;
@@ -179,7 +179,7 @@ body {
 }
 
 /* The glowing line overlay */
-.timeline::after {
+.qr-timeline-timeline::after {
   content: '';
   position: absolute;
   left: 50%;
@@ -196,7 +196,7 @@ body {
 
 
 /* Timeline Item */
-.timeline-item {
+.qr-timeline-timeline-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -209,13 +209,13 @@ body {
   z-index: 3;
 }
 
-.timeline-item.visible {
+.qr-timeline-timeline-item.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* Timeline Dot (commented out in JS, but keeping styles if you re-enable) */
-.timeline-dot {
+.qr-timeline-timeline-dot {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -231,7 +231,7 @@ body {
 }
 
 /* Glowing pulse animation for dots - make it active only when dot is illuminated */
-.timeline-dot::after {
+.qr-timeline-timeline-dot::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -247,17 +247,17 @@ body {
 }
 
 /* Active glow and pulse for the dot */
-.timeline-item.visible .timeline-dot {
+.qr-timeline-timeline-item.visible .qr-timeline-timeline-dot {
   background: #e15252;
   box-shadow: 0 0 15px 5px rgba(225, 82, 82, 0.8), 0 0 30px 10px rgba(225, 82, 82, 0.4);
 }
 
-.timeline-item.visible .timeline-dot::after {
+.qr-timeline-timeline-item.visible .qr-timeline-timeline-dot::after {
   opacity: 1;
-  animation: pulse 2s infinite;
+  animation: qr-timeline-pulse 2s infinite;
 }
 
-@keyframes pulse {
+@keyframes qr-timeline-pulse {
   0% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 0.8;
@@ -268,7 +268,7 @@ body {
   }
 }
 
-.timeline-side {
+.qr-timeline-timeline-side {
   width: 45%;
   display: flex;
   align-items: center;
@@ -276,7 +276,7 @@ body {
   position: relative;
 }
 
-.timeline-card {
+.qr-timeline-timeline-card {
   background: linear-gradient(to bottom right, #e2dede, #7b605e);
   padding: 1.5rem;
   border-radius: 20px;
@@ -294,26 +294,26 @@ body {
   transition: all 0.3s ease;
 }
 
-.timeline-card:hover {
+.qr-timeline-timeline-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
 }
 
-.timeline-card h3 {
+.qr-timeline-timeline-card h3 {
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  animation: fadeInUp 1s ease-out;
+  animation: qr-timeline-fadeInUp 1s ease-out;
 }
 
-.timeline-card p {
+.qr-timeline-timeline-card p {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.4;
   margin-bottom: auto;
 }
 
-.timeline-card .read-more {
+.qr-timeline-timeline-card .qr-timeline-read-more {
   margin-top: 1.5rem;
   padding: 0.75rem 1rem;
   text-align: center;
@@ -328,21 +328,21 @@ body {
   text-decoration: none;
 }
 
-.timeline-card .read-more:hover {
+.qr-timeline-timeline-card .qr-timeline-read-more:hover {
   background: white;
   color: #e15252;
 }
 
-.timeline-image {
+.qr-timeline-timeline-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
   border-radius: 16px;
   margin-bottom: 1rem;
-  animation: fadeIn 1s ease-out;
+  animation: qr-timeline-fadeIn 1s ease-out;
 }
 
-@keyframes fadeInUp {
+@keyframes qr-timeline-fadeInUp {
   0% {
     opacity: 0;
     transform: translateY(20px);
@@ -353,7 +353,7 @@ body {
   }
 }
 
-@keyframes fadeIn {
+@keyframes qr-timeline-fadeIn {
   from {
     opacity: 0;
   }
@@ -363,7 +363,7 @@ body {
 }
 
 /* Time label mobile */
-.timeline-time.mobile {
+.qr-timeline-timeline-time.mobile {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
@@ -379,7 +379,7 @@ body {
 }
 
 /* Desktop year label */
-.timeline-year {
+.qr-timeline-timeline-year {
   display: none;
   position: absolute;
   top: -2.2rem;
@@ -394,12 +394,12 @@ body {
   white-space: nowrap;
   z-index: 2;
 }
-.timeline-year-left {
+.qr-timeline-timeline-year-left {
   left: 66%;
   transform: translate(-267%, 425%);
 }
 
-.timeline-year-right {
+.qr-timeline-timeline-year-right {
   left: 27%;
   transform: translate(265%, 425%);
 }
@@ -408,7 +408,7 @@ body {
 /* Desktop only */
 
 @media (min-width: 1050px) {
-  .timeline-year {
+  .qr-timeline-timeline-year {
     display: block;
     position: absolute;
     top: 14.2rem;
@@ -426,11 +426,11 @@ body {
     z-index: 2;
   }
 
-  .timeline-time.mobile {
+  .qr-timeline-timeline-time.mobile {
     display: none;
   }
 
-  .timeline-item.right .timeline-side{
+  .qr-timeline-timeline-item.right .qr-timeline-timeline-side{
     flex-direction: row;
     justify-content: flex-start;
     padding-left: 2.5rem;
@@ -440,7 +440,7 @@ body {
     margin-right: 66%;
   }
 
-  .timeline-item.left .timeline-side {
+  .qr-timeline-timeline-item.left .qr-timeline-timeline-side {
     flex-direction: row-reverse;
     justify-content: flex-end;
     padding-right: 2.5rem;
@@ -451,13 +451,13 @@ body {
     width: 40%;
   }
 
-  .timeline-card {
+  .qr-timeline-timeline-card {
     max-width: 32vw;
     min-width: 260px;
     width: 100%;
   }
 
-  .timeline-image {
+  .qr-timeline-timeline-image {
     width: 100%;
     max-width: 400px;
     min-width: 180px;
@@ -470,9 +470,71 @@ body {
   }
 }
 
+/* New media query for 950px to 1049px */
+@media (min-width: 950px) and (max-width: 1049px) {
+  .qr-timeline-timeline-year {
+    display: block;
+    position: absolute;
+    top: 14.2rem; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    font-size: 1.6rem; /* Slightly smaller font size */
+    color: #faf5f5;
+    background: #f47a7a;
+    padding: 1rem 1.5rem; /* Adjusted padding */
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 2px 12px #b0b0b022;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .qr-timeline-timeline-time.mobile {
+    display: none;
+  }
+
+  .qr-timeline-timeline-item.right .qr-timeline-timeline-side {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 2rem; /* Slightly reduced padding */
+    text-align: left;
+    margin-left: 0;
+    width: 48%; /* Adjust width to fit */
+    margin-right: 58%; /* Adjust margin */
+  }
+
+  .qr-timeline-timeline-item.left .qr-timeline-timeline-side {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    padding-right: 2rem; /* Slightly reduced padding */
+    padding-left: 0;
+    text-align: right;
+    margin-left: 58%; /* Adjust margin */
+    margin-right: 0;
+    width: 48%; /* Adjust width to fit */
+  }
+
+  .qr-timeline-timeline-card {
+    max-width: 38vw; /* Adjust max-width to allow content to fit better */
+    min-width: 240px; /* Slightly smaller min-width */
+    width: 100%;
+    padding: 1.2rem; /* Slightly reduced padding */
+  }
+
+  .qr-timeline-timeline-image {
+    width: 100%;
+    max-width: 360px; /* Adjusted max-width for image */
+    min-width: 160px; /* Adjusted min-width for image */
+    height: 18vw; /* Adjusted height */
+    max-height: 300px; /* Adjusted max-height */
+    min-height: 160px; /* Adjusted min-height */
+  }
+}
+
 
 @media (min-width: 769px) and (max-width: 949px) {
-  .timeline-year {
+  .qr-timeline-timeline-year {
     display: block;
     position: absolute;
     top: 14.2rem;
@@ -490,11 +552,11 @@ body {
     z-index: 2;
   }
 
-  .timeline-time.mobile {
+  .qr-timeline-timeline-time.mobile {
     display: none;
   }
 
-  .timeline-item.right .timeline-side{
+  .qr-timeline-timeline-item.right .qr-timeline-timeline-side{
     flex-direction: row;
     justify-content: flex-start;
     padding-left: 2.5rem;
@@ -504,7 +566,7 @@ body {
     margin-right: 66%;
   }
 
-  .timeline-item.left .timeline-side {
+  .qr-timeline-timeline-item.left .qr-timeline-timeline-side {
     flex-direction: row-reverse;
     justify-content: flex-end;
     padding-right: 2.5rem;
@@ -515,13 +577,13 @@ body {
     width: 40%;
   }
 
-  .timeline-card {
+  .qr-timeline-timeline-card {
     max-width: 32vw;
     min-width: 260px;
     width: 100%;
   }
 
-  .timeline-image {
+  .qr-timeline-timeline-image {
     width: 100%;
     max-width: 400px;
     min-width: 180px;
@@ -536,30 +598,30 @@ body {
 
 /* Mobile view - specific adjustments */
 @media (max-width: 768px) and (min-width: 500px) {
-  .timeline {
+  .qr-timeline-timeline {
     padding: 0 0.5rem;
   }
 
-  .timeline::before {
+  .qr-timeline-timeline::before {
     left: 55px;
     width: 4px;
     transform: none;
   }
 
-  .timeline::after {
+  .qr-timeline-timeline::after {
     left: 55px;
     width: 4px;
     transform: none;
   }
 
-  .timeline-item {
+  .qr-timeline-timeline-item {
     flex-direction: column;
     align-items: flex-start;
     margin: 2rem 0 2rem 0.5rem;
     min-height: unset;
   }
 
-  .timeline-dot {
+  .qr-timeline-timeline-dot {
     left: 15px;
     top: 0;
     transform: translate(-50%, 0);
@@ -568,8 +630,8 @@ body {
     height: 28px;
   }
 
-  .timeline-side.left,
-  .timeline-side.right {
+  .qr-timeline-timeline-side.left,
+  .qr-timeline-timeline-side.right {
     width: 100%;
     justify-content: flex-start;
     text-align: left;
@@ -580,17 +642,17 @@ body {
 
   }
 
-  .timeline-horizontal-wrap,
-  .timeline-horizontal,
-  .timeline-year {
+  .qr-timeline-timeline-horizontal-wrap,
+  .qr-timeline-timeline-horizontal,
+  .qr-timeline-timeline-year {
     display: none !important;
   }
 
-  .timeline-time.mobile {
+  .qr-timeline-timeline-time.mobile {
     transform: translateX(2%);
   }
 
-  .timeline-image {
+  .qr-timeline-timeline-image {
     width: 100%;
     max-width: 100%;
     height: auto;
@@ -601,30 +663,30 @@ body {
 
 /*mobile ui*/
 @media (max-width: 499px){
-  .timeline {
+  .qr-timeline-timeline {
     padding: 0 0.5rem;
   }
 
-  .timeline::before {
+  .qr-timeline-timeline::before {
     left: 55px;
     width: 4px;
     transform: none;
   }
 
-  .timeline::after {
+  .qr-timeline-timeline::after {
     left: 55px;
     width: 4px;
     transform: none;
   }
 
-  .timeline-item {
+  .qr-timeline-timeline-item {
     flex-direction: column;
     align-items: flex-start;
-    margin: 2rem 0 2rem 0.5rem;
+    margin: 2rem  2rem 0.5rem;
     min-height: unset;
   }
 
-  .timeline-dot {
+  .qr-timeline-timeline-dot {
     left: 15px;
     top: 0;
     transform: translate(-50%, 0);
@@ -632,34 +694,34 @@ body {
     width: 28px;
     height: 28px;
   }
-  .timeline-card {
+  .qr-timeline-timeline-card {
     width: 70%;
     right: -8%;
   }
 
-  .timeline-side.left,
-  .timeline-side.right {
+  .qr-timeline-timeline-side.left,
+  .qr-timeline-timeline-side.right {
     width: 100%;
     justify-content: flex-start;
     text-align: left;
-    padding: 0 0 0 2.5rem;
+    padding: 0 0  2.5rem;
     margin-bottom: 0.5rem;
     position: static;
     flex-direction: column;
 
   }
 
-  .timeline-horizontal-wrap,
-  .timeline-horizontal,
-  .timeline-year {
+  .qr-timeline-timeline-horizontal-wrap,
+  .qr-timeline-timeline-horizontal,
+  .qr-timeline-timeline-year {
     display: none !important;
   }
 
-  .timeline-time.mobile {
-    transform: translateX(2%);
+  .qr-timeline-timeline-time.mobile {
+    transform: translateX(-20%);
   }
 
-  .timeline-image {
+  .qr-timeline-timeline-image {
     width: 100%;
     max-width: 100%;
     height: auto;
@@ -669,7 +731,7 @@ body {
 }
 
 /* Background Visual Container */
-.bg-visuals {
+.qr-timeline-bg-visuals {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -681,55 +743,55 @@ body {
 }
 
 /* SVG Buildings - Real Estate/Office Growth */
-.city-animation {
+.qr-timeline-city-animation {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 40vh;
   opacity: 0.1;
-  animation: cityRise 12s ease-in-out infinite alternate;
+  animation: qr-timeline-cityRise 12s ease-in-out infinite alternate;
   fill: #e15252;
 }
 
-.building {
-  animation: growUp 6s ease-in-out infinite alternate;
+.qr-timeline-building {
+  animation: qr-timeline-growUp 6s ease-in-out infinite alternate;
   transform-origin: bottom;
 }
 
-@keyframes growUp {
+@keyframes qr-timeline-growUp {
   0% { transform: scaleY(0.6); opacity: 0.4; }
   100% { transform: scaleY(1); opacity: 1; }
 }
 
-@keyframes cityRise {
+@keyframes qr-timeline-cityRise {
   0% { transform: translateY(10px); }
   100% { transform: translateY(-5px); }
 }
 
 /* Floating wave lines */
-.wave {
+.qr-timeline-wave {
   position: absolute;
   width: 200%;
   height: 100px;
   background: radial-gradient(circle, rgba(225,82,82,0.2) 10%, transparent 70%);
-  animation: moveWave 10s linear infinite;
+  animation: qr-timeline-moveWave 10s linear infinite;
   opacity: 0.15;
   transform: rotate(-10deg);
 }
 
-.wave1 {
+.qr-timeline-wave1 {
   top: 30%;
   left: -50%;
   animation-delay: 0s;
 }
 
-.wave2 {
+.qr-timeline-wave2 {
   top: 60%;
   left: -70%;
   animation-delay: 5s;
 }
 
-@keyframes moveWave {
+@keyframes qr-timeline-moveWave {
   0% { transform: translateX(0) rotate(-10deg); }
   100% { transform: translateX(50%) rotate(-10deg); }
 }
