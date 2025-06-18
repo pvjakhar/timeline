@@ -1,11 +1,14 @@
 // App.js
 import React from "react";
-import Timeline from "./Timeline";
+import Timeline from "./timelinee";
+import Hero from "./hero"
+
 
 function App() {
   return (
     <div className="App">
-      <Timeline />
+      <Hero/>
+      <Timeline/>
     </div>
   );
 }
