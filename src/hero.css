@@ -1,0 +1,251 @@
+.hero-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4rem 8%;
+  font-family: 'Segoe UI', sans-serif;
+  position: relative;
+  flex-wrap: wrap;
+  background-image: url('./image.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+  overflow: hidden;
+  min-height: 60vh;
+}
+
+.hero-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 0;
+}
+
+.hero-left, .hero-right {
+  z-index: 2;
+}
+
+.hero-left {
+  max-width: 40%;
+  min-width: 300px;
+}
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.hero-text-logo {
+  width: 200px;
+  height: auto;
+  object-fit: contain;
+}
+
+.hero-left h1 {
+  font-size: 4rem;
+  color: #fff;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  line-height: 6;
+}
+
+.hero-left p {
+  font-size: 1.5rem;
+  color: #eee;
+  margin-bottom: 2rem;
+}
+
+.cta-button {
+  padding: 1.2rem 2.5rem;
+  background-color: #e15252;
+  color: #fff;
+  border: none;
+  font-size: 1.3rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.cta-button:hover {
+  background-color: #c94141;
+  transform: scale(1.05);
+}
+
+.hero-right {
+  position: relative;
+  width: 50%;
+  min-width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.building {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  background: linear-gradient(to right, #f8f8f8, #d3d3d3);
+  box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid #222;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.4s ease;
+}
+
+.building:hover {
+  transform: translateY(-5px);
+}
+
+.tower-logo {
+  position: absolute;
+  top: 28%;
+  left: 30%;
+  width: 40px;
+  transform: rotate(-2deg);
+  opacity: 0.95;
+  filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 3;
+}
+
+.growth-arrow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://i.imgur.com/rwM8lIm.png') no-repeat;
+  background-size: contain;
+  background-position: right center;
+  pointer-events: none;
+  z-index: 0;
+  animation: floatArrow 3s ease-in-out infinite alternate;
+}
+
+@keyframes floatArrow {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+/* Tablet */
+@media screen and (max-width: 1024px) {
+  .hero-container {
+    flex-direction: column;
+    padding: 3rem 5%;
+    text-align: center;
+  }
+
+  .hero-left, .hero-right {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .hero-left h1 {
+    font-size: 3.2rem;
+  }
+
+  .hero-left p {
+    font-size: 1.3rem;
+  }
+
+  .building {
+    width: 280px;
+    height: 370px;
+  }
+
+  .tower-logo {
+    width: 35px;
+    top: 27%;
+    left: 28%;
+  }
+
+  .hero-text-logo {
+    width: 100px;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+  .hero-container {
+    flex-direction: column;
+    padding: 2rem 4%;
+  }
+
+  .hero-left {
+    order: 2;
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .hero-left h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-left p {
+    font-size: 1.2rem;
+  }
+
+  .hero-right {
+    order: 1;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .building {
+    width: 250px;
+    height: 350px;
+  }
+
+  .tower-logo {
+    width: 30px;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    z-index: 4;
+  }
+
+  .hero-text-logo {
+    width: 80px;
+  }
+}
+
+/* Very Small Devices */
+@media screen and (max-width: 480px) {
+  .hero-left h1 {
+    font-size: 3rem;
+  }
+
+  .hero-left p {
+    font-size: 1.1rem;
+  }
+
+  .cta-button {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+  }
+
+  .building {
+    width: 220px;
+    height: 320px;
+  }
+
+  .tower-logo {
+    width: 28px;
+  }
+
+  .hero-text-logo {
+    width: 150px;
+  }
+}
