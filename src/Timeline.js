@@ -157,35 +157,42 @@ const events = [
   },
 ];
 
-export default function Timeline() {
+function Timeline() {
   const itemRefs = useRef([]);
   const timelineRef = useRef(null);
-  const [selectedCity, setSelectedCity] = useState("All Cities"); // State for selected city
-  const [isMobile, setIsMobile] = useState(false); // New state for mobile view
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for custom dropdown open/close
+  const [selectedCity, setSelectedCity] = useState("All Cities");
+  const [isMobile, setIsMobile] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
-  // Get unique cities for the dropdown
   const uniqueCities = ["All Cities", ...new Set(events.map(event => event.city))].sort();
-
-  // Filtered events based on selectedCity
   const filteredEvents = events.filter(event => {
     if (selectedCity === "All Cities") {
-      return true; // Show all events
+      return true;
     }
-    // Filter by the 'city' property
     return event.city === selectedCity;
   });
 
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust breakpoint as needed
+      setIsMobile(window.innerWidth <= 768);
     };
 
-    checkIsMobile(); // Check on initial render
-    window.addEventListener('resize', checkIsMobile); // Add listener for window resize
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener('resize', checkIsMobile); // Clean up on unmount
+      window.removeEventListener('resize', checkIsMobile);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -247,90 +254,108 @@ export default function Timeline() {
 
   const handleCitySelect = (city) => {
     setSelectedCity(city);
-    setIsDropdownOpen(false); // Close dropdown after selection
+    setIsDropdownOpen(false);
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   };
 
   return (
-    <div className="qr-timeline-wrapper">
+    <div className="qr-timeline-main-container"> {/* Added a main container for overall structure */}
+      <div className="qr-timeline-wrapper">
+        {/* 🎨 Background Animated Visuals */}
+        <div className="qr-timeline-bg-visuals">
+          {/* Floating cityscape illustration */}
+          <svg className="qr-timeline-city-animation" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <rect x="10" y="50" width="8" height="50" className="qr-timeline-building"></rect>
+            <rect x="25" y="40" width="10" height="60" className="qr-timeline-building"></rect>
+            <rect x="45" y="30" width="12" height="70" className="qr-timeline-building"></rect>
+            <rect x="65" y="45" width="8" height="55" className="qr-timeline-building"></rect>
+            <rect x="80" y="35" width="10" height="65" className="qr-timeline-building"></rect>
+          </svg>
 
-      {/* 🎨 Background Animated Visuals */}
-      <div className="qr-timeline-bg-visuals">
-        {/* Floating cityscape illustration */}
-        <svg className="qr-timeline-city-animation" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <rect x="10" y="50" width="8" height="50" className="qr-timeline-building"></rect>
-          <rect x="25" y="40" width="10" height="60" className="qr-timeline-building"></rect>
-          <rect x="45" y="30" width="12" height="70" className="qr-timeline-building"></rect>
-          <rect x="65" y="45" width="8" height="55" className="qr-timeline-building"></rect>
-          <rect x="80" y="35" width="10" height="65" className="qr-timeline-building"></rect>
-        </svg>
+          {/* Animated wave lines */}
+          <div className="qr-timeline-wave qr-timeline-wave1"></div>
+          <div className="qr-timeline-wave qr-timeline-wave2"></div>
+        </div>
 
-        {/* Animated wave lines */}
-        <div className="qr-timeline-wave qr-timeline-wave1"></div>
-        <div className="qr-timeline-wave qr-timeline-wave2"></div>
-      </div>
-
-      {/* Filter Buttons / Custom Dropdown */}
-      <div className="qr-timeline-filter-container">
-        {isMobile ? (
-          <div className="qr-timeline-custom-dropdown-mobile">
-            <div
-              className={`qr-timeline-dropdown-header ${isDropdownOpen ? 'open' : ''}`}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            >
-              <span>{selectedCity === "All Cities" ? "All Locations" : selectedCity}</span>
-              <span className={`qr-timeline-dropdown-arrow ${isDropdownOpen ? 'up' : 'down'}`}></span>
-            </div>
-            <div className={`qr-timeline-dropdown-options ${isDropdownOpen ? 'show' : ''}`}>
-              {uniqueCities.map((city) => (
-                <div
-                  key={city}
-                  className={`qr-timeline-dropdown-option ${selectedCity === city ? 'active' : ''}`}
-                  onClick={() => handleCitySelect(city)}
-                >
-                  {city}
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <>
-            {uniqueCities.map((city) => (
-              <button
-                key={city}
-                className={`qr-timeline-filter-button ${selectedCity === city ? "active" : ""}`}
-                onClick={() => setSelectedCity(city)}
+        {/* Filter Buttons / Custom Dropdown */}
+        <div className="qr-timeline-filter-container">
+          {isMobile ? (
+            <div className="qr-timeline-custom-dropdown-mobile">
+              <div
+                className={`qr-timeline-dropdown-header ${isDropdownOpen ? 'open' : ''}`}
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                {city}
-              </button>
-            ))}
-          </>
-        )}
-      </div>
-
-      {/* 🕒 Timeline Content */}
-      <div className="qr-timeline-timeline" ref={timelineRef}>
-        {filteredEvents.map((event, index) => {
-          const isRight = index % 2 === 0;
-          return (
-            <div
-              key={index}
-              className={`qr-timeline-timeline-item ${isRight ? "right" : "left"}`}
-              ref={el => itemRefs.current[index] = el}
-            >
-              <div className={`qr-timeline-timeline-year ${isRight ? "qr-timeline-timeline-year-right" : "qr-timeline-timeline-year-left"}`}>{event.time}</div>
-              <div className="qr-timeline-timeline-time mobile">{event.time}</div>
-              <div className={`qr-timeline-timeline-side ${isRight ? "right" : "left"}`}>
-                <div className={`qr-timeline-timeline-card theme-${index % 4}`}>
-                  <img src={event.image} alt={event.title} className="qr-timeline-timeline-image" />
-                  <h3>{event.title}</h3>
-                  <p dangerouslySetInnerHTML={{ __html: event.description }}></p>
-                  <a className="qr-timeline-read-more" href={event.link}>READ MORE</a>
-                </div>
+                <span>{selectedCity === "All Cities" ? "All Locations" : selectedCity}</span>
+                <span className={`qr-timeline-dropdown-arrow ${isDropdownOpen ? 'up' : 'down'}`}></span>
+              </div>
+              <div className={`qr-timeline-dropdown-options ${isDropdownOpen ? 'show' : ''}`}>
+                {uniqueCities.map((city) => (
+                  <div
+                    key={city}
+                    className={`qr-timeline-dropdown-option ${selectedCity === city ? 'active' : ''}`}
+                    onClick={() => handleCitySelect(city)}
+                  >
+                    {city}
+                  </div>
+                ))}
               </div>
             </div>
-          );
-        })}
+          ) : (
+            <>
+              {uniqueCities.map((city) => (
+                <button
+                  key={city}
+                  className={`qr-timeline-filter-button ${selectedCity === city ? "active" : ""}`}
+                  onClick={() => setSelectedCity(city)}
+                >
+                  {city}
+                </button>
+              ))}
+            </>
+          )}
+        </div>
+
+        {/* 🕒 Timeline Content */}
+        <div id="timeline-start" className="qr-timeline-timeline" ref={timelineRef}> {/* Added ID for CTA button scroll */}
+          {filteredEvents.map((event, index) => {
+            const isRight = index % 2 === 0;
+            return (
+              <div
+                key={index}
+                className={`qr-timeline-timeline-item ${isRight ? "right" : "left"}`}
+                ref={el => itemRefs.current[index] = el}
+              >
+                {/* <div className="qr-timeline-timeline-dot"></div> */}
+                <div className={`qr-timeline-timeline-year ${isRight ? "qr-timeline-timeline-year-right" : "qr-timeline-timeline-year-left"}`}>{event.time}</div>
+                <div className="qr-timeline-timeline-time mobile">{event.time}</div>
+                <div className={`qr-timeline-timeline-side ${isRight ? "right" : "left"}`}>
+                  <div className={`qr-timeline-timeline-card theme-${index % 4}`}>
+                    <img src={event.image} alt={event.title} className="qr-timeline-timeline-image" />
+                    <h3>{event.title}</h3>
+                    <p dangerouslySetInnerHTML={{ __html: event.description }}></p>
+                    <a className="qr-timeline-read-more" href={event.link}>READ MORE</a>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Back to Top Button */}
+        {showBackToTop && (
+          <button className="qr-timeline-back-to-top" onClick={scrollToTop}>
+            ↑
+          </button>
+        )}
       </div>
     </div>
   );
 }
+
+export default Timeline;
