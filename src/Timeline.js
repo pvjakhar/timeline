@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './timeline.css';
 
-// Images (imports remain the same)
+// Images
 import img1 from './assets/images/obp 1-D5Rbw8zb.avif';
 import img2 from './assets/images/MPD 3-BSdWA76q.avif';
 import img3 from './assets/images/Success-w3z5xRyX.avif';
@@ -15,105 +15,179 @@ import img13 from './assets/images/LOUNGEAREA1-CVgcy5MG.avif';
 import img14 from './assets/images/142 NOIDA 1-DztVV_3h.avif';
 import img15 from './assets/images/grovy 1-D4hIQ2P4.avif';
 import img16 from './assets/images/HYDERABAD 1-BB-Qt9OM.avif';
+import img7 from './assets/images/1 (1)-DWj-BICG.avif'
 
 
 const events = [
   {
+    image: img4,
+    time: "2018",
+    title: "Global Business Park, MG Road",
+    description: "Tower D, Global Business Park MG Road, Gurgaon<br /><strong>Rating: 4.8 (57 reviews)",
+    city: "Gurgaon", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/gurgaon/altf-global-business-park/"
+  },
+  {
+    image: img3,
+    time: "2019",
+    title: "Success Towers, Golf Course Ext.",
+    description: "Suncity Success Tower, Golf Course Extension Road, Gurgaon<br /><strong>Rating: 4.7 (99 reviews)",
+    city: "Gurgaon", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/gurgaon/altf-success-tower/"
+  },
+  {
     image: img1,
-    time: "2025",
+    time: "2024",
     title: "Sohna Road, Gurgaon",
-    description: "₹8,500 / seat<br />Near Subhash Chowk (100m)<br />Rating: 4.9 (85 reviews)",
-    link: "#sohna"
+    description: "Sohna Road, Sector 48, near Subhash Chowk, Gurgaon, Haryana<br /><strong>Rating: 4.9 (85 reviews)",
+    city: "Gurgaon", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/gurgaon/altf-orchid-business-park/"
   },
   {
     image: img2,
     time: "2024",
     title: "Golf Course Road, Gurgaon",
-    description: "₹14,000 / seat<br />2 mins from Metro (Sec 42-43)<br />Rating: 4.9 (99 reviews)",
-    link: "#golfcourse"
-  },
-  {
-    image: img3,
-    time: "2023",
-    title: "Success Towers, Golf Course Ext.",
-    description: "₹7,000 / seat<br />Free Parking, Dual Deck Terrace<br />Rating: 4.7 (99 reviews)",
-    link: "#successtowers"
-  },
-  {
-    image: img4,
-    time: "2022",
-    title: "Global Business Park, MG Road",
-    description: "₹12,000 / seat<br />Near Guru Dronacharya Metro<br />Rating: 4.8 (57 reviews)",
-    link: "#gbp"
+    description: "2nd Floor, MPD Tower, Golf Course Road, Gurgaon<br /><strong>Rating: 4.9 (99 reviews)",
+    city: "Gurgaon", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/gurgaon/altf-mpd-tower/"
   },
   {
     image: img5,
     time: "2021",
     title: "JMD Empire Square, MG Road",
-    description: "₹13,000 / seat<br />300m from Sikanderpur Metro<br />Rating: 4.5 (297 reviews)",
-    link: "#jmd"
+    description: "Tower D, Global Business Park MG Road, Gurgaon<br /><strong>Rating: 4.5 (297 reviews)",
+    city: "Gurgaon", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/gurgaon/altf-empire-square/"
   },
   {
     image: img6,
-    time: "2020",
+    time: "2021",
     title: "MGF Megacity Mall, MG Road",
-    description: "₹10,000 / seat<br />5-min walk to Sikanderpur Metro<br />Rating: 5.0 (19 reviews)",
-    link: "#mgf"
+    description: "JMD Empire Square MG Road, Gurgaon<br /><strong>Rating: 5.0 (19 reviews)",
+    city: "Gurgaon", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/gurgaon/altf-megacity/"
+  },
+  {
+    image: img7,
+    time: "2020",
+    title: "Udyog Vihar, Gurgaon",
+    description: "887, Shankar Chowk Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana, 122022<br /><strong>Coming Soon",
+    city: "Gurgaon", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/gurgaon/altf-udyog-vihar/"
   },
   {
     image: img8,
     time: "2019",
     title: "Mohan Cooperative, Delhi",
-    description: "₹8,000 / seat<br />5 min from NSIC Okhla Metro<br />Newly Launched",
-    link: "#mohan"
+    description: "Plot No A 26, Block B, Mohan Cooperative Industrial Estate, Delhi<br /><strong>Newly Launched",
+    city: "Delhi", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/delhi/altf-mohan-cooperative/"
   },
   {
     image: img9,
     time: "2018",
     title: "Okhla, Delhi",
-    description: "₹9,000 / seat<br />5 min from NSIC Okhla Metro<br />Rating: 4.9 (188 reviews)",
-    link: "#okhla"
+    description: "101, Mathura Rd, CRRI, Ishwar Nagar, Okhla, New Delhi<br /><strong>Rating: 4.9 (188 reviews)",
+    city: "Delhi", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/delhi/altf-101-okhla/"
   },
   {
     image: img10,
     time: "2017",
     title: "Barakhamba Road, Delhi",
-    description: "₹15,000 / seat<br />150m from Barakhamba Metro<br />Rating: 4.9 (51 reviews)",
-    link: "#barakhamba"
+    description: "5th Floor, Wing-A, Statesman House, Barakhamba Road, New Delhi<br /><strong>Rating: 4.9 (51 reviews)",
+    city: "Delhi", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/delhi/altf-statesman-house/"
   },
   {
     image: img13,
-    time: "2016",
+    time: "2022",
     title: "Connaught Place, Delhi",
-    description: "₹8,000 / seat<br />5 min from NSIC Okhla Metro<br />Coming Soon",
-    link: "#cp"
+    description: "Connaught Place, Delhi<br /><strong>Coming Soon",
+    city: "Delhi", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/delhi/altf-regal-building/"
+  },
+  {
+    image: img7,
+    time: "2020",
+    title: "Sector 62, Noida",
+    description: "C-20, 1/1A, Coast Guard Golf Ground Rd, Sector 62, Noida<br /><strong>Rating: 4.5 (101 reviews)",
+    city: "Noida", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/noida/altf-noida-62/"
+  },
+  {
+    image: img13,
+    time: "2020",
+    title: "Sector 58, Noida",
+    description: "A100, A Block, Sector 58, Noida, Uttar Pradesh<br /><strong>Rating: 5.0 (45 reviews)",
+    city: "Noida", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/noida/altf-noida-58/"
   },
   {
     image: img14,
-    time: "2015",
+    time: "2018",
     title: "Sector 142, Noida Expressway",
-    description: "₹7,000 / seat<br />5-min walk to Metro<br />15 Days rent-free<br />Rating: 4.8 (259 reviews)",
-    link: "#142noida"
+    description: "Plot No. 21 & 21A, Sector 142, Noida<br /><strong>Rating: 4.8 (259 reviews)",
+    city: "Noida", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/noida/altf-noida-142/"
   },
   {
     image: img15,
     time: "2014",
     title: "Sector 68, Noida",
-    description: "₹7,000 / seat<br />Close to Sector 62 Metro<br />15 Days rent-free<br />Rating: 4.5 (101 reviews)",
-    link: "#68noida"
+    description: "Grovy Optiva, Block A, Sector 68, Noida<br /><strongRating: 4.5 (101 reviews)",
+    city: "Noida", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/noida/altf-grovy-optiva/"
   },
   {
     image: img16,
     time: "2013",
     title: "Financial District, Hyderabad",
-    description: "₹8,500 / seat<br />5-min walk from Metro<br />Newly Launched<br />Rating: 5.0 (1 review)",
-    link: "#hyderabad"
-  }
+    description: "Kapil Kavuri Hub. 144, Financial District, Nanakramguda, Hyderabad<br /><strong>Rating: 5.0 (1 review)",
+    city: "Hyderabad", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/hyderabad/altf-financial-district/"
+  },
+  {
+    image: img4,
+    time: "2022",
+    title: "alt.f Hitec City",
+    description: "Hitec City, Hyderabad<br /><strong>Coming Soon",
+    city: "Hyderabad", // Added city property
+    link: "https://www.altfcoworking.com/coworking-space/hyderabad/altf-hitec-city/"
+  },
 ];
 
 export default function Timeline() {
   const itemRefs = useRef([]);
   const timelineRef = useRef(null);
+  const [selectedCity, setSelectedCity] = useState("All Cities"); // State for selected city
+  const [isMobile, setIsMobile] = useState(false); // New state for mobile view
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for custom dropdown open/close
+
+  // Get unique cities for the dropdown
+  const uniqueCities = ["All Cities", ...new Set(events.map(event => event.city))].sort();
+
+  // Filtered events based on selectedCity
+  const filteredEvents = events.filter(event => {
+    if (selectedCity === "All Cities") {
+      return true; // Show all events
+    }
+    // Filter by the 'city' property
+    return event.city === selectedCity;
+  });
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust breakpoint as needed
+    };
+
+    checkIsMobile(); // Check on initial render
+    window.addEventListener('resize', checkIsMobile); // Add listener for window resize
+
+    return () => {
+      window.removeEventListener('resize', checkIsMobile); // Clean up on unmount
+    };
+  }, []);
 
   useEffect(() => {
     const timelineElement = timelineRef.current;
@@ -122,60 +196,59 @@ export default function Timeline() {
     const observer = new window.IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const targetItem = entry.target;
-        const index = itemRefs.current.indexOf(targetItem);
-
         if (entry.isIntersecting) {
           targetItem.classList.add("visible");
         } else {
-          // Remove visible class when leaving viewport
           targetItem.classList.remove("visible");
         }
+      });
 
-        // --- Logic for the glowing line height ---
-        if (timelineElement) {
-          let maxVisibleYearBottom = 0; // Tracks the lowest visible year label's position
+      let maxVisibleYearBottom = 0;
+      document.querySelectorAll('.timeline-item.visible').forEach(item => {
+        const yearLabel = item.querySelector('.timeline-year');
+        const mobileYearLabel = item.querySelector('.timeline-time.mobile');
 
-          // Iterate through all items to find the lowest visible one
-          itemRefs.current.forEach(item => {
-            if (item && item.classList.contains('visible')) {
-              // Target the timeline-year element
-              const yearLabel = item.querySelector('.timeline-year');
-              const mobileYearLabel = item.querySelector('.timeline-time.mobile');
+        let currentYearElement = null;
 
-              let currentYearElement = null;
+        if (window.innerWidth >= 769 && yearLabel) {
+          currentYearElement = yearLabel;
+        } else if (window.innerWidth < 769 && mobileYearLabel) {
+          currentYearElement = mobileYearLabel;
+        }
 
-              // Determine which year label is currently displayed (desktop or mobile)
-              if (window.innerWidth >= 769 && yearLabel) { // Desktop view
-                currentYearElement = yearLabel;
-              } else if (window.innerWidth < 769 && mobileYearLabel) { // Mobile view
-                currentYearElement = mobileYearLabel;
-              }
+        if (currentYearElement) {
+          const yearRect = currentYearElement.getBoundingClientRect();
+          const timelineRect = timelineElement.getBoundingClientRect();
+          const yearBottomRelativeToTimeline = yearRect.bottom - timelineRect.top;
 
-              if (currentYearElement) {
-                // Calculate the year label's bottom position relative to the timeline's top
-                const yearRect = currentYearElement.getBoundingClientRect();
-                const yearBottomRelativeToTimeline = yearRect.bottom - timelineElement.getBoundingClientRect().top;
-
-                if (yearBottomRelativeToTimeline > maxVisibleYearBottom) {
-                  maxVisibleYearBottom = yearBottomRelativeToTimeline;
-                }
-              }
-            }
-          });
-
-          // Set the height of the ::after pseudo-element using a CSS variable
-          // We'll set this property on the .timeline element itself
-          timelineElement.style.setProperty('--glow-line-height', `${maxVisibleYearBottom}px`);
+          if (yearBottomRelativeToTimeline > maxVisibleYearBottom) {
+            maxVisibleYearBottom = yearBottomRelativeToTimeline;
+          }
         }
       });
-    }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' }); // Adjust threshold and rootMargin as needed
 
-    itemRefs.current.forEach(el => {
+      timelineElement.style.setProperty('--glow-line-height', `${maxVisibleYearBottom}px`);
+
+    }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
+
+    filteredEvents.forEach((_, index) => {
+      const el = itemRefs.current[index];
       if (el) observer.observe(el);
     });
 
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      observer.disconnect();
+    };
+  }, [selectedCity, filteredEvents, isMobile]);
+
+  useEffect(() => {
+    itemRefs.current = [];
+  }, [filteredEvents]);
+
+  const handleCitySelect = (city) => {
+    setSelectedCity(city);
+    setIsDropdownOpen(false); // Close dropdown after selection
+  };
 
   return (
     <div className="timeline-wrapper">
@@ -196,9 +269,47 @@ export default function Timeline() {
         <div className="wave wave2"></div>
       </div>
 
+      {/* Filter Buttons / Custom Dropdown */}
+      <div className="filter-container">
+        {isMobile ? (
+          <div className="custom-dropdown-mobile">
+            <div
+              className={`dropdown-header ${isDropdownOpen ? 'open' : ''}`}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+              <span>{selectedCity === "All Cities" ? "All Locations" : selectedCity}</span>
+              <span className={`dropdown-arrow ${isDropdownOpen ? 'up' : 'down'}`}></span>
+            </div>
+            <div className={`dropdown-options ${isDropdownOpen ? 'show' : ''}`}>
+              {uniqueCities.map((city) => (
+                <div
+                  key={city}
+                  className={`dropdown-option ${selectedCity === city ? 'active' : ''}`}
+                  onClick={() => handleCitySelect(city)}
+                >
+                  {city}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <>
+            {uniqueCities.map((city) => (
+              <button
+                key={city}
+                className={`filter-button ${selectedCity === city ? "active" : ""}`}
+                onClick={() => setSelectedCity(city)}
+              >
+                {city}
+              </button>
+            ))}
+          </>
+        )}
+      </div>
+
       {/* 🕒 Timeline Content */}
       <div className="timeline" ref={timelineRef}>
-        {events.map((event, index) => {
+        {filteredEvents.map((event, index) => {
           const isRight = index % 2 === 0;
           return (
             <div
@@ -206,8 +317,6 @@ export default function Timeline() {
               className={`timeline-item ${isRight ? "right" : "left"}`}
               ref={el => itemRefs.current[index] = el}
             >
-              {/* This line is now commented out, removing the dot */}
-              {/* <div className="timeline-dot" /> */}
               <div className={`timeline-year ${isRight ? "timeline-year-right" : "timeline-year-left"}`}>{event.time}</div>
               <div className="timeline-time mobile">{event.time}</div>
               <div className={`timeline-side ${isRight ? "right" : "left"}`}>
