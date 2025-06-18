@@ -21,7 +21,7 @@ import img7 from './assets/images/1 (1)-DWj-BICG.avif'
 const events = [
   {
     image: img4,
-    time: "2018",
+    time: "May 2018",
     title: "Global Business Park, MG Road",
     description: "Tower D, Global Business Park MG Road, Gurgaon<br /><strong>Rating: 4.8 (57 reviews)",
     city: "Gurgaon", // Added city property
@@ -29,7 +29,7 @@ const events = [
   },
   {
     image: img3,
-    time: "2019",
+    time: "May 2019",
     title: "Success Towers, Golf Course Ext.",
     description: "Suncity Success Tower, Golf Course Extension Road, Gurgaon<br /><strong>Rating: 4.7 (99 reviews)",
     city: "Gurgaon", // Added city property
@@ -204,9 +204,9 @@ export default function Timeline() {
       });
 
       let maxVisibleYearBottom = 0;
-      document.querySelectorAll('.timeline-item.visible').forEach(item => {
-        const yearLabel = item.querySelector('.timeline-year');
-        const mobileYearLabel = item.querySelector('.timeline-time.mobile');
+      document.querySelectorAll('.qr-timeline-timeline-item.visible').forEach(item => {
+        const yearLabel = item.querySelector('.qr-timeline-timeline-year');
+        const mobileYearLabel = item.querySelector('.qr-timeline-timeline-time.mobile');
 
         let currentYearElement = null;
 
@@ -251,40 +251,40 @@ export default function Timeline() {
   };
 
   return (
-    <div className="timeline-wrapper">
+    <div className="qr-timeline-wrapper">
 
       {/* 🎨 Background Animated Visuals */}
-      <div className="bg-visuals">
+      <div className="qr-timeline-bg-visuals">
         {/* Floating cityscape illustration */}
-        <svg className="city-animation" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <rect x="10" y="50" width="8" height="50" className="building"></rect>
-          <rect x="25" y="40" width="10" height="60" className="building"></rect>
-          <rect x="45" y="30" width="12" height="70" className="building"></rect>
-          <rect x="65" y="45" width="8" height="55" className="building"></rect>
-          <rect x="80" y="35" width="10" height="65" className="building"></rect>
+        <svg className="qr-timeline-city-animation" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <rect x="10" y="50" width="8" height="50" className="qr-timeline-building"></rect>
+          <rect x="25" y="40" width="10" height="60" className="qr-timeline-building"></rect>
+          <rect x="45" y="30" width="12" height="70" className="qr-timeline-building"></rect>
+          <rect x="65" y="45" width="8" height="55" className="qr-timeline-building"></rect>
+          <rect x="80" y="35" width="10" height="65" className="qr-timeline-building"></rect>
         </svg>
 
         {/* Animated wave lines */}
-        <div className="wave wave1"></div>
-        <div className="wave wave2"></div>
+        <div className="qr-timeline-wave qr-timeline-wave1"></div>
+        <div className="qr-timeline-wave qr-timeline-wave2"></div>
       </div>
 
       {/* Filter Buttons / Custom Dropdown */}
-      <div className="filter-container">
+      <div className="qr-timeline-filter-container">
         {isMobile ? (
-          <div className="custom-dropdown-mobile">
+          <div className="qr-timeline-custom-dropdown-mobile">
             <div
-              className={`dropdown-header ${isDropdownOpen ? 'open' : ''}`}
+              className={`qr-timeline-dropdown-header ${isDropdownOpen ? 'open' : ''}`}
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
               <span>{selectedCity === "All Cities" ? "All Locations" : selectedCity}</span>
-              <span className={`dropdown-arrow ${isDropdownOpen ? 'up' : 'down'}`}></span>
+              <span className={`qr-timeline-dropdown-arrow ${isDropdownOpen ? 'up' : 'down'}`}></span>
             </div>
-            <div className={`dropdown-options ${isDropdownOpen ? 'show' : ''}`}>
+            <div className={`qr-timeline-dropdown-options ${isDropdownOpen ? 'show' : ''}`}>
               {uniqueCities.map((city) => (
                 <div
                   key={city}
-                  className={`dropdown-option ${selectedCity === city ? 'active' : ''}`}
+                  className={`qr-timeline-dropdown-option ${selectedCity === city ? 'active' : ''}`}
                   onClick={() => handleCitySelect(city)}
                 >
                   {city}
@@ -297,7 +297,7 @@ export default function Timeline() {
             {uniqueCities.map((city) => (
               <button
                 key={city}
-                className={`filter-button ${selectedCity === city ? "active" : ""}`}
+                className={`qr-timeline-filter-button ${selectedCity === city ? "active" : ""}`}
                 onClick={() => setSelectedCity(city)}
               >
                 {city}
@@ -308,23 +308,23 @@ export default function Timeline() {
       </div>
 
       {/* 🕒 Timeline Content */}
-      <div className="timeline" ref={timelineRef}>
+      <div className="qr-timeline-timeline" ref={timelineRef}>
         {filteredEvents.map((event, index) => {
           const isRight = index % 2 === 0;
           return (
             <div
               key={index}
-              className={`timeline-item ${isRight ? "right" : "left"}`}
+              className={`qr-timeline-timeline-item ${isRight ? "right" : "left"}`}
               ref={el => itemRefs.current[index] = el}
             >
-              <div className={`timeline-year ${isRight ? "timeline-year-right" : "timeline-year-left"}`}>{event.time}</div>
-              <div className="timeline-time mobile">{event.time}</div>
-              <div className={`timeline-side ${isRight ? "right" : "left"}`}>
-                <div className={`timeline-card theme-${index % 4}`}>
-                  <img src={event.image} alt={event.title} className="timeline-image" />
+              <div className={`qr-timeline-timeline-year ${isRight ? "qr-timeline-timeline-year-right" : "qr-timeline-timeline-year-left"}`}>{event.time}</div>
+              <div className="qr-timeline-timeline-time mobile">{event.time}</div>
+              <div className={`qr-timeline-timeline-side ${isRight ? "right" : "left"}`}>
+                <div className={`qr-timeline-timeline-card theme-${index % 4}`}>
+                  <img src={event.image} alt={event.title} className="qr-timeline-timeline-image" />
                   <h3>{event.title}</h3>
                   <p dangerouslySetInnerHTML={{ __html: event.description }}></p>
-                  <a className="read-more" href={event.link}>READ MORE</a>
+                  <a className="qr-timeline-read-more" href={event.link}>READ MORE</a>
                 </div>
               </div>
             </div>
